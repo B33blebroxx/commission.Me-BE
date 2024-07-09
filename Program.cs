@@ -1,7 +1,9 @@
 using CommissionMe;
+using CommissionMe.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -9,19 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddNpgsql<CommissionMeDbContext>(builder.Configuration["CommissionMeDbConnectionString"]);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -33,6 +22,15 @@ builder.Services.AddCors(options =>
     });
 });
 
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseCors();
 
 app.UseHttpsRedirection();
@@ -40,5 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+ProfilesApi.Map(app);
 
 app.Run();
