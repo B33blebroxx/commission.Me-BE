@@ -4,9 +4,10 @@
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public string? Email { get; set; }
         public string? Image { get; set; }
         public string? Rates { get; set; }
-        public string? Styles { get; set; }
+        public string? Style { get; set; }
         public string? Experience { get; set; }
         public string? Bio {  get; set; }
         public string? Uid { get; set; }
