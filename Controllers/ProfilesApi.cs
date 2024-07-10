@@ -37,6 +37,39 @@ namespace CommissionMe.Controllers
                 db.SaveChanges();
                 return Results.Created($"/profiles/{profile.Id}", profile);
             });
+
+            //Update a profile
+            app.MapPut("/profiles/{id}", (CommissionMeDbContext db, int id, Profile updatedProfile) =>
+            {
+                var profile = db.Profiles.Find(id);
+                if (profile == null)
+                {
+                    return Results.NotFound();
+                }
+                profile.Name = updatedProfile.Name;
+                profile.Email = updatedProfile.Email;
+                profile.Image = updatedProfile.Image;
+                profile.Rates = updatedProfile.Rates;
+                profile.Style = updatedProfile.Style;
+                profile.Experience = updatedProfile.Experience;
+                profile.Bio = updatedProfile.Bio;
+
+                db.SaveChanges();
+                return Results.Ok(profile);
+            });
+
+            //Delete a profile
+            app.MapDelete("/profiles/{id}", (CommissionMeDbContext db, int id) =>
+            {
+                var profile = db.Profiles.Find(id);
+                if (profile == null)
+                {
+                    return Results.NotFound();
+                }
+                db.Profiles.Remove(profile);
+                db.SaveChanges();
+                return Results.NoContent();
+            });
         }
     }
 }
