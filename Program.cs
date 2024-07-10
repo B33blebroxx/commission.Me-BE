@@ -40,5 +40,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 ProfilesApi.Map(app);
+PostsApi.Map(app);
 
 app.Run();
