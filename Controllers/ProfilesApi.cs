@@ -48,9 +48,9 @@ namespace CommissionMe.Controllers
                 }
                 profile.Name = updatedProfile.Name;
                 profile.Email = updatedProfile.Email;
-                profile.Image = updatedProfile.Image;
+                profile.ProfilePic = updatedProfile.ProfilePic;
                 profile.Rates = updatedProfile.Rates;
-                profile.Style = updatedProfile.Style;
+                profile.Styles = updatedProfile.Styles;
                 profile.Experience = updatedProfile.Experience;
                 profile.Bio = updatedProfile.Bio;
 
