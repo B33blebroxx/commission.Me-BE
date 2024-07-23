@@ -1,4 +1,5 @@
 ﻿using CommissionMe.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommissionMe.Controllers
 {
@@ -9,7 +10,7 @@ namespace CommissionMe.Controllers
             //Get all of a profile's posts
             app.MapGet("/profiles/{id}/all-posts", (CommissionMeDbContext db, int id) =>
             {
-                var allPosts = db.Posts.Where(p => p.ProfileId == id).ToList();
+                var allPosts = db.Posts.Where(p => p.ProfileId == id).Include(p => p.Style).Include(p => p.PostTags).ToList();
                 if (allPosts.Count() == 0)
                 {
                     return Results.NotFound();
@@ -20,7 +21,7 @@ namespace CommissionMe.Controllers
             //Get a profile's public posts
             app.MapGet("/profiles/{id}/public-posts", (CommissionMeDbContext db, int id) =>
             {
-                var publicPosts = db.Posts.Where(p =>p.ProfileId == id && !p.Private).ToList();
+                var publicPosts = db.Posts.Where(p =>p.ProfileId == id && !p.Private).Include(p => p.Style).Include(p => p.PostTags).ToList();
                 if (publicPosts.Count() == 0)
                 {
                     return Results.NotFound();
@@ -31,7 +32,7 @@ namespace CommissionMe.Controllers
             //Get a single post
             app.MapGet("/profiles/posts/{id}", (CommissionMeDbContext db, int id) =>
             {
-                var post = db.Posts.SingleOrDefault(p => p.Id == id);
+                var post = db.Posts.Include(p => p.Style).Include(p => p.PostTags).SingleOrDefault(p => p.Id == id);
                 if (post != null)
                 {
                     return Results.NotFound();
@@ -70,6 +71,8 @@ namespace CommissionMe.Controllers
                 }
                 existingPost.Title = post.Title;
                 existingPost.PostImg = post.PostImg;
+                existingPost.Description = post.Description;
+                existingPost.StyleId = post.StyleId;
                 existingPost.Private = post.Private;
                 db.SaveChanges();
                 return Results.NoContent();

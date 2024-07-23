@@ -54,10 +54,10 @@ public class CommissionMeDbContext : DbContext
 
         modelBuilder.Entity<Post>().HasData(new Post[]
         {
-            new Post { Id = 1, PostImg = "https://media.wired.com/photos/5a13e367eceb990b7e519957/master/w_2560%2Cc_limit/Alice-X-Zhang.jpg", Private = false, ProfileId = 2, Title = "Best Friends", StyleId = 2 },
-            new Post { Id = 2, PostImg = "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/abed-the-astronaut-community-joseph-oland.jpg", Private = false, ProfileId = 1, Title = "Up", StyleId = 1 },
-            new Post { Id = 3, PostImg = "https://obiruskenobi.files.wordpress.com/2013/11/greendale_final.jpg", Private = false, ProfileId = 2, Title = "The Greendale Dead", StyleId = 2 },
-            new Post { Id = 4, PostImg = "https://images.theconversation.com/files/296052/original/file-20191008-128681-ngzwqb.jpg?ixlib=rb-1.1.0&rect=15%2C20%2C929%2C926&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip", Private = true, ProfileId = 2, Title = "Arts!", StyleId = 2 }
+            new Post { Id = 1, PostImg = "https://media.wired.com/photos/5a13e367eceb990b7e519957/master/w_2560%2Cc_limit/Alice-X-Zhang.jpg", Private = false, ProfileId = 2, Title = "Best Friends", StyleId = 2, Description = "Test" },
+            new Post { Id = 2, PostImg = "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/abed-the-astronaut-community-joseph-oland.jpg", Private = false, ProfileId = 1, Title = "Up", StyleId = 1, Description = "Test"  },
+            new Post { Id = 3, PostImg = "https://obiruskenobi.files.wordpress.com/2013/11/greendale_final.jpg", Private = false, ProfileId = 2, Title = "The Greendale Dead", StyleId = 2, Description = "Test" },
+            new Post { Id = 4, PostImg = "https://images.theconversation.com/files/296052/original/file-20191008-128681-ngzwqb.jpg?ixlib=rb-1.1.0&rect=15%2C20%2C929%2C926&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip", Private = true, ProfileId = 2, Title = "Arts!", StyleId = 2, Description = "Test"  }
         });
 
         modelBuilder.Entity<Style>().HasData(new Style[]
