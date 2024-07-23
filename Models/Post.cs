@@ -8,6 +8,5 @@
         public int ProfileId { get; set; }
         public string? Uid { get; set; }
         public bool Private { get; set; }
-        public ICollection<Profile>? Profiles { get; set; }
     }
 }
