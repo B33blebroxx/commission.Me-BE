@@ -10,7 +10,7 @@ namespace CommissionMe.Controllers
             //Get all profiles
             app.MapGet("/profiles", (CommissionMeDbContext db) =>
             {
-                var profiles = db.Profiles;
+                var profiles = db.Profiles.Include(p => p.Styles).Include(p => p.Posts);
                 if (profiles == null)
                 {
                     return (Results.NotFound());
@@ -22,7 +22,7 @@ namespace CommissionMe.Controllers
             //Get profile details
             app.MapGet("/profiles/{id}", (CommissionMeDbContext db, int id) =>
             {
-                var profile = db.Profiles.Where(pr => pr.Id == id);
+                var profile = db.Profiles.Where(pr => pr.Id == id).Include(p => p.Styles).Include(p => p.Posts);
                 if (profile.Count() == 0 || profile == null)
                 {
                     return Results.NotFound();
