@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommissionMe.Migrations
 {
     [DbContext(typeof(CommissionMeDbContext))]
-    [Migration("20240709203650_SeedDataMigration")]
-    partial class SeedDataMigration
+    [Migration("20240711020120_InitialSeedData")]
+    partial class InitialSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,8 @@ namespace CommissionMe.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Posts");
 
@@ -164,34 +166,18 @@ namespace CommissionMe.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PostProfile", b =>
+            modelBuilder.Entity("CommissionMe.Models.Post", b =>
                 {
-                    b.Property<int>("PostsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProfilesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PostsId", "ProfilesId");
-
-                    b.HasIndex("ProfilesId");
-
-                    b.ToTable("PostProfile");
+                    b.HasOne("CommissionMe.Models.Profile", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("PostProfile", b =>
+            modelBuilder.Entity("CommissionMe.Models.Profile", b =>
                 {
-                    b.HasOne("CommissionMe.Models.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CommissionMe.Models.Profile", null)
-                        .WithMany()
-                        .HasForeignKey("ProfilesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

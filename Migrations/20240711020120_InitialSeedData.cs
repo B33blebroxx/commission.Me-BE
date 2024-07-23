@@ -8,28 +8,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommissionMe.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedDataMigration : Migration
+    public partial class InitialSeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    PostImg = table.Column<string>(type: "text", nullable: true),
-                    ProfileId = table.Column<int>(type: "integer", nullable: false),
-                    Uid = table.Column<string>(type: "text", nullable: true),
-                    Private = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Profiles",
                 columns: table => new
@@ -51,27 +34,36 @@ namespace CommissionMe.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostProfile",
+                name: "Posts",
                 columns: table => new
                 {
-                    PostsId = table.Column<int>(type: "integer", nullable: false),
-                    ProfilesId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    PostImg = table.Column<string>(type: "text", nullable: true),
+                    ProfileId = table.Column<int>(type: "integer", nullable: false),
+                    Uid = table.Column<string>(type: "text", nullable: true),
+                    Private = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostProfile", x => new { x.PostsId, x.ProfilesId });
+                    table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostProfile_Posts_PostsId",
-                        column: x => x.PostsId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PostProfile_Profiles_ProfilesId",
-                        column: x => x.ProfilesId,
+                        name: "FK_Posts_Profiles_ProfileId",
+                        column: x => x.ProfileId,
                         principalTable: "Profiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Profiles",
+                columns: new[] { "Id", "Bio", "Email", "Experience", "Image", "Name", "Rates", "Style", "Uid" },
+                values: new object[,]
+                {
+                    { 1, "Troy... Troy Barnes?... Barnes comma Troy??", "tbone@greendale.edu", "3-5 Years", "https://i.redd.it/3fbg5y6884351.jpg", "Troy Barnes", "$200-300", "Landscapes", "V9gg3039YHROMJ6pH8tPD84Qrzh2" },
+                    { 2, "It's called 'Showbusiness,' not 'Friendbusiness...'", "CoolAbedProductions@greendale.edu", "6-9 Years", "https://spacecrip.files.wordpress.com/2012/04/abed.png?w=640", "Abed Nadir", "300+", "Pop", "WDnlUTXgAxfAgRjrNebr6dppvC83" },
+                    { 3, "That's nice!", "ShirleysSandwiches@greendale.edu", "3-5 Years", "https://assets.mycast.io/characters/shirley-bennett-6527587-normal.jpg?1659645717", "Shirley Bennett", "$200-300", "Commercial", "KC1UeRhu8ATnVAodM8uMDIi9Brh2" }
                 });
 
             migrationBuilder.InsertData(
@@ -85,28 +77,15 @@ namespace CommissionMe.Migrations
                     { 4, "https://images.theconversation.com/files/296052/original/file-20191008-128681-ngzwqb.jpg?ixlib=rb-1.1.0&rect=15%2C20%2C929%2C926&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip", true, 2, "Arts!", "4Oqdg8mfh7TS8iz6zPCAu22GLGr1" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Profiles",
-                columns: new[] { "Id", "Bio", "Email", "Experience", "Image", "Name", "Rates", "Style", "Uid" },
-                values: new object[,]
-                {
-                    { 1, "Troy... Troy Barnes?... Barnes comma Troy??", "tbone@greendale.edu", "3-5 Years", "https://i.redd.it/3fbg5y6884351.jpg", "Troy Barnes", "$200-300", "Landscapes", "V9gg3039YHROMJ6pH8tPD84Qrzh2" },
-                    { 2, "It's called 'Showbusiness,' not 'Friendbusiness...'", "CoolAbedProductions@greendale.edu", "6-9 Years", "https://spacecrip.files.wordpress.com/2012/04/abed.png?w=640", "Abed Nadir", "300+", "Pop", "WDnlUTXgAxfAgRjrNebr6dppvC83" },
-                    { 3, "That's nice!", "ShirleysSandwiches@greendale.edu", "3-5 Years", "https://assets.mycast.io/characters/shirley-bennett-6527587-normal.jpg?1659645717", "Shirley Bennett", "$200-300", "Commercial", "KC1UeRhu8ATnVAodM8uMDIi9Brh2" }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_PostProfile_ProfilesId",
-                table: "PostProfile",
-                column: "ProfilesId");
+                name: "IX_Posts_ProfileId",
+                table: "Posts",
+                column: "ProfileId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "PostProfile");
-
             migrationBuilder.DropTable(
                 name: "Posts");
 

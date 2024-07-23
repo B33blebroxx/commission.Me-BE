@@ -58,7 +58,7 @@ namespace CommissionMe.Controllers
                 return Results.Ok(profile);
             });
 
-            //Delete a profile
+            //Delete a profile and its posts
             app.MapDelete("/profiles/{id}", (CommissionMeDbContext db, int id) =>
             {
                 var profile = db.Profiles.Find(id);
@@ -66,6 +66,8 @@ namespace CommissionMe.Controllers
                 {
                     return Results.NotFound();
                 }
+                var posts = db.Posts.Where(p => p.ProfileId == id).ToList();
+                db.Posts.RemoveRange(posts);
                 db.Profiles.Remove(profile);
                 db.SaveChanges();
                 return Results.NoContent();
