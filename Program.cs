@@ -41,5 +41,8 @@ app.MapControllers();
 
 ProfilesApi.Map(app);
 PostsApi.Map(app);
+StylesApi.Map(app);
+TagsApi.Map(app);
+PostTagsApi.Map(app);
 
 app.Run();
