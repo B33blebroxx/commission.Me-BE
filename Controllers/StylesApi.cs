@@ -1,4 +1,6 @@
 ﻿using CommissionMe.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace CommissionMe.Controllers
 {
     public static class StylesApi
